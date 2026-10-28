@@ -87,3 +87,12 @@ class Horario:
         con.close()
         # Ordenamos por día de la semana y luego por hora
         return sorted(filas, key=lambda f: (DIAS.index(f["dia_semana"]), f["hora_inicio"]))
+    
+    def guardar_con_validacion(self):
+        """Intenta guardar el horario solo si pasa la validación de cruces."""
+        if self.validar_cruce_horarios():
+            print("[-] Error: No se puede guardar. Existe un cruce de horario para el docente o el aula.")
+            return None
+        
+        # Si no hay cruces, procede a guardar normalmente
+        return self.guardar()
