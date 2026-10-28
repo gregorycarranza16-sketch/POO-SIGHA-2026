@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block contenido %}
+<h2>Panel del administrador</h2>
+<p>Cargo: {{ usuario.cargo }}</p>
+
+<h3>Períodos académicos</h3>
+<table>
+  <tr><th>Código</th><th>Inicio</th><th>Fin</th><th>Estado</th><th>Acción</th></tr>
+  {% for p in periodos %}
+  <tr><td>{{ p.datos.codigo }}</td><td>{{ p.datos.inicio }}</td><td>{{ p.datos.fin }}</td><td>{{ p.datos.estado }}</td>
+    <td>
+      <form method="post" action="{{ url_for('cambiar_periodo', codigo=p.datos.codigo, accion='activar') }}" style="display:inline"><button>Activar</button></form>
+      <form method="post" action="{{ url_for('cambiar_periodo', codigo=p.datos.codigo, accion='finalizar') }}" style="display:inline"><button>Finalizar</button></form>
+    </td></tr>
+  {% endfor %}
+</table>
+
+<h3>Crear horario</h3>
+<form method="post" action="{{ url_for('crear_horario') }}">
+  <select name="asignatura">{% for a in asignaturas %}<option value="{{ a.obtener_detalles().codigo }}">{{ a.obtener_detalles().nombre }}</option>{% endfor %}</select>
+  <select name="docente">{% for d in docentes %}<option value="{{ d.id }}">{{ d.nombre }}</option>{% endfor %}</select>
+  <select name="aula">{% for au in aulas %}<option value="{{ au.datos.codigo }}">{{ au.datos.codigo }} - {{ au.datos.tipo }}</option>{% endfor %}</select>
+  <select name="periodo">{% for p in periodos %}<option value="{{ p.datos.codigo }}">{{ p.datos.codigo }}</option>{% endfor %}</select><br>
+  <select name="dia">{% for d in dias %}<option>{{ d }}</option>{% endfor %}</select>
+  <input type="time" name="hora_inicio" required> a <input type="time" name="hora_fin" required>
+  <button type="submit">Crear</button>
+</form>
+
+<h3>Todos los horarios</h3>
+<table>
+  <tr><th>ID</th><th>Día</th><th>Hora</th><th>Asignatura</th><th>Docente</th><th>Aula</th><th>Período</th><th>Estado</th><th></th></tr>
+  {% for h in horarios %}
+  <tr><td>{{ h.id_horario }}</td><td>{{ h.dia_semana }}</td><td>{{ h.hora_inicio }}-{{ h.hora_fin }}</td><td>{{ h.asignatura }}</td>
+      <td>{{ h.docente }}</td><td>{{ h.codigo_aula }}</td><td>{{ h.codigo_periodo }}</td><td>{{ h.estado }}</td>
+      <td><a href="{{ url_for('editar_horario', id_horario=h.id_horario) }}">Editar</a></td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

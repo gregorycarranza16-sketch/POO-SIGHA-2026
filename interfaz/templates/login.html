@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block contenido %}
+<h2>Iniciar sesión</h2>
+<form method="post">
+  <label>Correo</label><br><input type="email" name="correo" required><br>
+  <label>Clave</label><br><input type="password" name="clave" required><br>
+  <button type="submit">Entrar</button>
+</form>
+<p><small>Pruebas: admin@uni.edu / admin123 · docente@uni.edu / docente123 · estudiante@uni.edu / estudiante123</small></p>
+{% endblock %}

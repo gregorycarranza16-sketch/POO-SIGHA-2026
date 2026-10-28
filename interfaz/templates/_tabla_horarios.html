@@ -1,0 +1,8 @@
+{# Tabla reutilizada por las vistas de docente y estudiante #}
+<table>
+  <tr><th>Día</th><th>Hora</th><th>Asignatura</th><th>Docente</th><th>Aula</th></tr>
+  {% for h in horarios %}
+  <tr><td>{{ h.dia_semana }}</td><td>{{ h.hora_inicio }} - {{ h.hora_fin }}</td><td>{{ h.asignatura }}</td>
+      <td>{{ h.docente }}</td><td>{{ h.codigo_aula }} ({{ h.ubicacion }})</td></tr>
+  {% else %}<tr><td colspan="5">No hay horarios para mostrar.</td></tr>{% endfor %}
+</table>

@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block contenido %}
+<h2>Panel del estudiante</h2>
+<p>Nivel: {{ usuario.nivel }}</p>
+<h3>Horario de mi nivel</h3>
+{% include "_tabla_horarios.html" %}
+{% endblock %}

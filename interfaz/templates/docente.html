@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block contenido %}
+<h2>Panel del docente</h2>
+<p>Especialidad: {{ usuario.especialidad }} · Máx. horas semanales: {{ usuario.max_horas_semanales }}</p>
+<h3>Mi horario</h3>
+{% include "_tabla_horarios.html" %}
+{% endblock %}

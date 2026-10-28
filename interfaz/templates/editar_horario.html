@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block contenido %}
+<h2>Editar horario #{{ h.id_horario }} — {{ h.asignatura }}</h2>
+<form method="post">
+  <select name="dia">{% for d in dias %}<option {% if d == h.dia_semana %}selected{% endif %}>{{ d }}</option>{% endfor %}</select>
+  <input type="time" name="hora_inicio" value="{{ h.hora_inicio }}" required> a
+  <input type="time" name="hora_fin" value="{{ h.hora_fin }}" required>
+  <select name="estado">{% for e in ['Activo','Cancelado'] %}<option {% if e == h.estado %}selected{% endif %}>{{ e }}</option>{% endfor %}</select>
+  <button type="submit">Guardar</button> <a href="{{ url_for('administrador') }}">Volver</a>
+</form>
+{% endblock %}
