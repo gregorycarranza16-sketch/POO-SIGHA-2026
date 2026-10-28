@@ -1,42 +1,16 @@
-"""Clase PeriodoAcademico. Contiene (composición) a muchos Horarios."""
-from base_datos.conexion import obtener_conexion
-
-
 class PeriodoAcademico:
-    def __init__(self, codigo_periodo, fecha_inicio, fecha_fin, estado):
-        self._codigo_periodo = codigo_periodo
-        self._fecha_inicio = fecha_inicio
-        self._fecha_fin = fecha_fin
-        self._estado = estado
+    def __init__(self, codigo, fecha_inicio, fecha_fin):
+        self.codigo = codigo
+        self.fecha_inicio = fecha_inicio
+        self.fecha_fin = fecha_fin
+        self.__estado = "Activo"
 
-    @property
-    def datos(self):
-        return {"codigo": self._codigo_periodo, "inicio": self._fecha_inicio,
-                "fin": self._fecha_fin, "estado": self._estado}
+    def obtener_estado(self):
+        return self.__estado
 
-    def _cambiar_estado(self, nuevo_estado):
-        con = obtener_conexion()
-        con.execute("UPDATE periodos SET estado = ? WHERE codigo_periodo = ?", (nuevo_estado, self._codigo_periodo))
-        con.commit()
-        con.close()
-        self._estado = nuevo_estado
+    def cerrar_periodo(self):
+        self.__estado = "Inactivo"
+        return "El periodo ha sido cerrado y ya no se pueden hacer horarios."
 
-    def activar_periodo(self):
-        self._cambiar_estado("Activo")
-
-    def finalizar_periodo(self):
-        self._cambiar_estado("Finalizado")
-
-    @staticmethod
-    def buscar(codigo):
-        con = obtener_conexion()
-        f = con.execute("SELECT * FROM periodos WHERE codigo_periodo = ?", (codigo,)).fetchone()
-        con.close()
-        return PeriodoAcademico(f["codigo_periodo"], f["fecha_inicio"], f["fecha_fin"], f["estado"]) if f else None
-
-    @staticmethod
-    def listar():
-        con = obtener_conexion()
-        filas = con.execute("SELECT * FROM periodos ORDER BY fecha_inicio DESC").fetchall()
-        con.close()
-        return [PeriodoAcademico(f["codigo_periodo"], f["fecha_inicio"], f["fecha_fin"], f["estado"]) for f in filas]
+    def mostrar_info(self):
+        return f"Periodo: {self.codigo} | Estado: {self.__estado}"
